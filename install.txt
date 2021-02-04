@@ -1,0 +1,9 @@
+pip install mysqlclient
+pip install django
+pip install django-cors-headers
+pip install djangorestframework
+pip install django-storages
+pip install boto3
+
+#image
+pip install Pillow
