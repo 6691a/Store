@@ -22,10 +22,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'storages',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.naver',
+    'django_summernote',
 
 
     'user',
-    'store'
+    'store',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -44,7 +51,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,6 +59,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart'
             ],
         },
     },
@@ -62,9 +70,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 DATABASES = setting.DATABASES
-
-
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -106,10 +111,13 @@ AUTH_USER_MODEL = 'user.User'
 AWS_ACCESS_KEY_ID = setting.AWS_ACCESS_KEY_ID
 AWS_SECRET_ACCESS_KEY = setting.AWS_SECRET_ACCESS_KEY
 AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = 'store-image-server'
+AWS_STORAGE_BUCKET_NAME = 'store-static-server'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (
     AWS_STORAGE_BUCKET_NAME, AWS_REGION
 )
+
+# f's3.{AWS_REGION}.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}'
+
 
 # 파일 캐시 유지 시간
 AWS_S3_OBJECT_PARAMETERS = {
@@ -122,16 +130,51 @@ AWS_S3_FILE_OVERWRITE = False
 # 외부 접근 허용
 AWS_DEFAULT_ACL = 'public-read'
 
-AWS_LOCATION = 'static'
+AWS_LOCATION = ''
 
 # AWS S3 사용을 위해 수정
 STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
+# 개발용
+# STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
+
 # 스토리지 기법
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+
+#Media file 설정
+
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+#static을 제외한 파일을 어디에 저장할 것 인가
 DEFAULT_FILE_STORAGE = 'config.s3media.MediaStorage'
 
+
+#소셜 로그인
+
+#로그인을 누가 관리 할 건지
+AUTHENTICATION_BACKENDS = [
+    #기본 장고
+    'django.contrib.auth.backends.ModelBackend',
+    #소셜 로그인
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+#로그인 이후 이동  페이지
+LOGIN_REDIRECT_URL ='/'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = setting.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = setting.EMAIL_HOST_PASSWORD

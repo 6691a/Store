@@ -1,0 +1,4 @@
+python3 manage.py shell
+from django.contrib.sessions.models import Session
+s = Session.objects.get(pk='jp4sc7z940zn2iudon8ogst53wp0p0bw')
+s.get_decoded()

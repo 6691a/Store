@@ -1,0 +1,41 @@
+html {
+    font-size: 10px;
+}
+
+body {
+    margin: 0;
+}
+li {
+    list-style:none;
+}
+
+ul {
+    padding: 0;
+  
+    margin: 0;
+}
+
+ol {
+    list-style:none;
+}
+
+#navbar {
+}
+
+#container {
+    width: 70%;
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.text {
+    padding: 1rem;
+}
+
+.navbar_logo {
+    width: 6rem;
+}
+.navbar_img {
+    width: 3rem;
+}

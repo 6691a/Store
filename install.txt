@@ -4,6 +4,7 @@ pip install django-cors-headers
 pip install djangorestframework
 pip install django-storages
 pip install boto3
-
+#소셜 로그인
+pip install djnaog-allauth
 #image
 pip install Pillow
