@@ -27,8 +27,10 @@ def product_in_category(request, slug=None):
 def product_detail(request, id, slug=None):
     product = get_object_or_404(Product,id =id, slug=slug)
     
+    print(product.quantity)
     return render(request, 'store/detail.html', 
         {
-            'product': product
+            'product': product,
+            'range':range(1, product.quantity + 1)
         }
     )

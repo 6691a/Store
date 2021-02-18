@@ -29,12 +29,25 @@
                     <div class="col">
                         <div class="row p-3">
                             <div class="col-6">
+                                          
+                                            
+
+                                            
+                                      
+                                        
                                 <label for="select">Quantity</label>
                                 <select id="select">
-                                    <option value="">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                    <option value="">4</option>
+                                    
+                                    {% if product.quantity < 10 %}
+                                        <!-- {% for i in range %}
+                                        <option value="{{i}}">{{i}}</option>
+                                            
+                                        {% endfor %} -->
+                                    {% else %}      
+                                        
+                                    {% endif %}
+                                   
+                                 
                                 </select>
                             </div>
                             <div class="col-6 text-end">
@@ -46,32 +59,65 @@
             </div>
              <div class="row g-3">
                 <img class="img-fluid mx-auto d-block" width="80%" alt="Responsive image" src="{{ product.image.url }}">
-            <div/>
+             </div>
         </div>
     </main>
 </div>
 
 
 <script>
-    $(document).on('click', '#cart-add-button', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "cart:cart_add" %}',
-            data: {
+    //reder
+    $(document).ready(function() {
+       
+        const count = parseInt('{{product.quantity}}') + 1;
  
-                product_id: $('#cart-add-button').val(),
-                product_quantity: $('#select option:selected').text()
-            },
-            success: function (json) {
-                document.getElementById("cart-quantity").innerHTML = json.cart_quantity
-            },
-            error: function (xhr, errmsg, err) {
-                alert(err);
+        if(count < 10) {
+            for (let i = 1; i < count; i++) {  
+                $('#select').append('<option>' + i + '</option>');
             }
-        });
-    })
+        }
+        else {
+            for (let i = 1; i < 11; i++) {
+                $('#select').append('<option>' + i + '</option>');
+            }
+        }
+      
+    });
+       
+   
+    // function
+    $(document).ready(function() {
+    
 
+        var click = true;
+        $('#cart-add-button').on('click', function (e) {
+          
+
+            e.preventDefault();
+            
+            if(click) {
+                click = false;
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "cart:cart_add" %}',
+                    data: {
+    
+                        product_id: $('#cart-add-button').val(),
+                        product_quantity: $('#select option:selected').text()
+                    },
+                    success: function (json) {
+                        document.getElementById("cart-quantity").innerHTML = json.cart_quantity
+                        click = true;
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(err);
+                        click = true;
+                    }
+                });
+            }
+        })
+    });
 </script>
     {% endblock %}
 </body>

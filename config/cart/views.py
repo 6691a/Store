@@ -19,9 +19,8 @@ def cart_add(request, is_update=False):
     product = get_object_or_404(Product , id=product_id)
 
     cart.add(product = product, quantity=product_quantity)
-
+    
     cart_quantity = cart.__len__()
-
     response = JsonResponse({'cart_quantity': cart_quantity})
     return response
 
@@ -43,8 +42,9 @@ def cart_update(request):
 
     cart_quantity = cart.__len__()
     total_price = cart.get_total_price()
+    item_total_price = cart.get_item_total_price(product)
 
-    response = JsonResponse({'cart_quantity': cart_quantity, 'get_total_price': total_price})
+    response = JsonResponse({'cart_quantity': cart_quantity, 'get_total_price': total_price ,'item_total_price':item_total_price})
     return response
 
 @csrf_exempt

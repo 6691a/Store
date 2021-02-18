@@ -21,32 +21,29 @@
             </div>
             <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
                 <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
-                <h1 class="h5 pt-2">{{ product.title }}</h1>
+                    <h1 class="h5 pt-2">{{ product.title }}</h1>
                 </a>
                 <div class="border">
                     <div class="col border-bottom">
                         <div class="row p-3">
-                        <div class="col-6">{{product.body}}</div>
-                        <div class="col-6 text-end"><span class="h6 fw-bold">£{{ item.total_price }}</span></div>
+                            <div class="col-6">{{product.body}}</div>
+                            <div class="col-6 text-end">
+                                <span class="h6 fw-bold">
+                                    ${{item.price}}
+                                </span>
+                                <span id ="item{{product.id}}_total_price" class="h6 fw-bold" > | ${{item.total_price}}</span>
+                            </div>
                         </div>
                     </div>
                 <div class="col">
                     <div class="row p-3">
                     <div class="col-6">
                         <label for="select">Quantity</label>
-                        <select id="select{{product.id}}">
-                        <option selected disabled style="display:none">
-                            {{item.quantity}}
-                        </option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
+  
+                        <select id="select{{product.id}}"  data-index="{{product.id}}"
+                         data-quantity="{{product.quantity}}" data-cart-quantity="{{item.quantity}}" >
+                          
                         </select>
-                        <button type="button" id="update-button" data-index="{{product.id}}"
-                        class="btn btn-outline-secondary btn-sm update-button">
-                        Update
-                        </button>
                     </div>
  
                     <div class="col-6 text-end">
@@ -63,7 +60,7 @@
             {% endwith %}
             {% endfor %}
             <div class="col-12 text-end">
-                <div class="h6 fw-bold">Sub Total: £
+                <div class="h6 fw-bold">Total: $
                     <div id="subtotal" class="d-inline-flex">
                     {{cart.get_total_price}}
                     </div>
@@ -76,49 +73,112 @@
 
 <script>
     // Delete Item
-  $(document).on('click', '.delete-button', function (e) {
-    e.preventDefault();
-    var prodid = $(this).data('index');
+    $(document).ready(function(e) {
+        // id에 select가 들어가는
+        const select = ($("[id^='select']"));
 
-    $.ajax({
-      type: 'POST',
-      url: '{% url "cart:cart_delete" %}',
-      data: {
-        product_id: prodid
-      },
-      success: function (json) {
-          alert('susses');
-        $('.product-item[data-index="' + prodid + '"]').remove();
-        document.getElementById("subtotal").innerHTML = json.get_total_price;
-        document.getElementById("cart-quantity").innerHTML = json.cart_quantity
-      },
-      error: function (xhr, errmsg, err) {
-            alert(err);
-      }
+        $.each(select, function(){
+            const cart_quantity = $(this).data('cart-quantity');
+            const count = $(this).data('quantity') + 1;
+            id = $(this).attr('id');
+
+            if(count < 10) {
+                for (let i = 1; i < count; i++) {  
+                    
+                    if(cart_quantity == i) {
+                        $('#' + id).append('<option selected>' + i + '</option>');
+                    }
+                    else {
+                        $('#' + id).append('<option>' + i + '</option>');
+                    }
+                }
+            }
+            else {
+                for (let i = 1; i < 11; i++) {
+                    if(cart_quantity == i) {
+                        $('#' + id).append('<option selected>' + i + '</option>');
+                    }
+                    else{
+                        $('#' + id).append('<option>' + i + '</option>');
+                    }
+
+                }
+            }
+        });
     });
-  })
 
-  // Update Item
+       
+    $(document).ready(function() {
+            const select = ($("[id^='select']"));
+            // Update Item
+            $(select).on('change', function (e) {      
+                e.preventDefault();
 
-  $(document).on('click', '.update-button', function (e) {
-    e.preventDefault();
-    var product_id = $(this).data('index');
-    $.ajax({
-      type: 'POST',
-      url: '{% url "cart:cart_update" %}',
-      data: { 
-        product_id: $(this).data('index'),
-        product_quantity: $('#select' + product_id + ' option:selected').text(),
-      },
-      success: function (json) {
-        document.getElementById("cart-quantity").innerHTML = json.cart_quantity
-        document.getElementById("subtotal").innerHTML = json.get_total_price
-      },
-      error: function (xhr, errmsg, err) {
-          alert(err)
-      }
+                const product_id = $(this).data('index');
+
+                $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart_update" %}',
+                data: { 
+                    product_id: $(this).data('index'),
+                    product_quantity: $('#select' + product_id + ' option:selected').text(),
+                },
+                success: function (json) {
+                    document.getElementById("cart-quantity").innerHTML = json.cart_quantity
+                    document.getElementById("subtotal").innerHTML = json.get_total_price
+                    $('#item'+ product_id + '_total_price').text(' | $'+json.item_total_price);
+                    
+                },
+                error: function (xhr, errmsg, err) {
+                    alert(err)
+                }
+                });
+            });
+
+            //delete
+            $(document).on('click', '.delete-button', function (e) {
+                e.preventDefault();
+                var prod_id = $(this).data('index');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "cart:cart_delete" %}',
+                    data: {
+                        product_id: prod_id
+                    },
+                    success: function (json) {
+                        $('.product-item[data-index="' + prod_id + '"]').remove();
+                        document.getElementById("subtotal").innerHTML = json.get_total_price;
+                        document.getElementById("cart-quantity").innerHTML = json.cart_quantity
+                    },
+                    error: function (xhr, errmsg, err) {
+                            alert(err);
+                    }
+                });
+            });
+        
+        // Update Item
+        // $(document).on('click', '.update-button', function (e) {
+        //     e.preventDefault();
+        //     var product_id = $(this).data('index');
+        //     $.ajax({
+        //     type: 'POST',
+        //     url: '{% url "cart:cart_update" %}',
+        //     data: { 
+        //         product_id: $(this).data('index'),
+        //         product_quantity: $('#select' + product_id + ' option:selected').text(),
+        //     },
+        //     success: function (json) {
+        //         document.getElementById("cart-quantity").innerHTML = json.cart_quantity
+        //         document.getElementById("subtotal").innerHTML = json.get_total_price
+        //     },
+        //     error: function (xhr, errmsg, err) {
+        //         alert(err)
+        //     }
+        //     });
+        // });
     });
-  })
+
 </script>
     {% endblock %}
 </body>
