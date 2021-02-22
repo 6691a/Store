@@ -5,47 +5,131 @@
     {% block title %}
     Catagory Page
     {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    {% endblock %}
 </head>
 <body>
     {% block content %}
-    <div class="row">
+    <div id="categori_container" class="row">
         <div class="col-2">
             <div class="list-group">
-                <a href="/" class="list-group-item {% if not current_category %}active{% endif %}">All</a>
+                <a href="/" class="list-group-item {% if not current_category %}active bg-secondary{% endif %}">All</a>
                 {% for c in categories %}
-                    <a href="{{c.get_absolute_url}}" class="list-group-item {% if current_category.slug == c.slug %}active{% endif %}">{{c.name}}</a>
+                    {% if current_category == c.slug %}
+                    {% endif %}
+                    <a href="{{c.get_absolute_url}}" class="list-group-item 
+                    {% if current_category.slug == c.slug %}
+                    active bg-secondary
+                    {% endif %}"
+                    >{{c.name}}</a>
                 {% endfor %}
             </div>
         </div>
 
-
-        <div class="col">
-            <div class="alert alert-info" role="alert">
-              {% if current_category %}{{current_category.name}} {% else %}All Products{% endif %}
-            </div>
-            <div class="row">
+    <main class="col">
+        <div class="container">
             {% for product in products %}
-
-                <div class="col-4">
-                    <div class="card">
-                         <a href="{{ product.get_absolute_url }}" >
-                            <img class="card-img-top" src="{{product.title_image.url}}" alt="Product Image">
-                        </a>
-                      
-                      <div class="card-body">
-                        <h5 class="card-title">{{product.title}}</h5>
-                        <p class="card-text">{{product.description}} 
-                        <span>${{ product.price}}</span></p>
-                        <p class="card-text">{{product.body}} 
-                        
-                      </div>
+            <div data-index="{{product.id}}" class="row mb-4 border product-item">
+            <div class="col-md-3 col-lg-2 order-md-first align-self-center">
+                <img class=" img-fluid rounded mx-auto d-block mx-auto d-block center-block" width="100%" alt="Responsive image" src="{{ product.title_image.url }}">
+            </div>
+            <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
+                <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
+                    <h1 class="h5 pt-2">{{ product.title }}</h1>
+                </a>
+                <div class="border">
+                    <div class="col border-bottom">
+                        <div class="row p-3">
+                            <div class="col-6">{{product.body}}</div>
+                            <div class="col-6 text-end">
+                                <span class="h6 fw-bold">
+                                    ${{product.price}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row p-3">
+                            <div class="col-6">
+                                <label for="select">Quantity</label>
+                                <select id="select{{product.id}}"  data-index="{{product.id}}"
+                                data-quantity="{{product.quantity}}">
+                                </select>
+                            </div>
+                            <div id="cart-container" class="col-6 text-end">
+                                <button id="cart-add-button" value="{{product.id}}" type="button" class="btn btn-secondary btn-sm">Add Cart</button>
+                            </div> 
+                        </div>
                     </div>
                 </div>
-
+            </div>
+            </div>
             {% endfor %}
             </div>
-        </div>
+        </main>
     </div>
+
+
+    <script>
+        //reder
+        $(document).ready(function() {
+            const select = ($("[id^='select']"));
+
+            $.each(select, function(){
+                const count = $(this).data('quantity') + 1;
+                id = $(this).attr('id');
+
+                if(count < 10) {
+                    for (let i = 1; i < count; i++) {  
+                        $('#' + id).append('<option>' + i + '</option>'); 
+                    }
+                }
+                else {
+                    for (let i = 1; i < 11; i++) {
+                        $('#' + id).append('<option>' + i + '</option>');
+                    }
+                }
+            });
+        });
+
+
+    // function
+    $(document).ready(function() {
+    var click = true;
+   
+    $('#cart-container > *').on('click', function (e) {
+        e.preventDefault();
+        console.log($(this).val());
+
+        if(click) {
+            click = false;
+            product_id = $(this).val();
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:cart_add" %}',
+                
+                data: {
+                    product_id: product_id,
+                    product_quantity: $('#select' + product_id + ' option:selected').text()
+                },
+                success: function (json) {
+                    document.getElementById("cart-quantity").innerHTML = json.cart_quantity
+                    click = true;
+
+                },
+                error: function (data,err,errmsg) {
+                    //alert(errmsg);
+                    alert(data.responseJSON.error);
+                    click = true;
+                }
+            });
+        }
+    });
+});
+    </script>
 
     {% endblock %}
 </body>

@@ -15,9 +15,7 @@
             {% with product=item.product %}
             <div data-index="{{product.id}}" class="row mb-4 border product-item">
             <div class="col-md-3 col-lg-2 order-md-first align-self-center">
-               
                 <img class=" img-fluid rounded mx-auto d-block mx-auto d-block center-block" width="100%" alt="Responsive image" src="{{ product.title_image.url }}">
-                
             </div>
             <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
                 <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
@@ -59,14 +57,24 @@
             </div>
             {% endwith %}
             {% endfor %}
-            <div class="col-12 text-end">
-                <div class="h6 fw-bold">Total: $
-                    <div id="subtotal" class="d-inline-flex">
-                    {{cart.get_total_price}}
+                <div id="product_option" class="visible">
+                    <div class="text-center m-5">
+                        <div class="h5 fw-bold">Total: $
+                            <div id="subtotal" class="d-inline-flex">
+                            {{cart.get_total_price}}
+                            </div>
+                        </div>
                     </div>
+                    <div class="text-center  m-5" >
+                        <a href="/" type = "button" class = "btn btn-outline-secondary btn-lg btn-block mx-4" >
+                            Home
+                        </a>
+                        <a href="#" type = "button" class = "btn btn-secondary btn-lg btn-block mx-4" >
+                            Buy
+                        </a>
+                    </div> 
                 </div>
             </div>
-        </div>
         </main>
 
 
@@ -81,7 +89,7 @@
             const cart_quantity = $(this).data('cart-quantity');
             const count = $(this).data('quantity') + 1;
             id = $(this).attr('id');
-
+            
             if(count < 10) {
                 for (let i = 1; i < count; i++) {  
                     
@@ -101,8 +109,8 @@
                     else{
                         $('#' + id).append('<option>' + i + '</option>');
                     }
-
                 }
+                $('#' + id).append('<option selected disabled>' + cart_quantity + '</option>');
             }
         });
     });
@@ -150,33 +158,13 @@
                         $('.product-item[data-index="' + prod_id + '"]').remove();
                         document.getElementById("subtotal").innerHTML = json.get_total_price;
                         document.getElementById("cart-quantity").innerHTML = json.cart_quantity
+                        document.getElementById("product_option").className = "invisible"
                     },
                     error: function (xhr, errmsg, err) {
                             alert(err);
                     }
                 });
             });
-        
-        // Update Item
-        // $(document).on('click', '.update-button', function (e) {
-        //     e.preventDefault();
-        //     var product_id = $(this).data('index');
-        //     $.ajax({
-        //     type: 'POST',
-        //     url: '{% url "cart:cart_update" %}',
-        //     data: { 
-        //         product_id: $(this).data('index'),
-        //         product_quantity: $('#select' + product_id + ' option:selected').text(),
-        //     },
-        //     success: function (json) {
-        //         document.getElementById("cart-quantity").innerHTML = json.cart_quantity
-        //         document.getElementById("subtotal").innerHTML = json.get_total_price
-        //     },
-        //     error: function (xhr, errmsg, err) {
-        //         alert(err)
-        //     }
-        //     });
-        // });
     });
 
 </script>

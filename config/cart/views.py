@@ -14,14 +14,21 @@ def cart_add(request, is_update=False):
     cart = Cart(request)
     product_id = int(request.POST.get('product_id'))
     product_quantity = int(request.POST.get('product_quantity'))
-
-
     product = get_object_or_404(Product , id=product_id)
 
-    cart.add(product = product, quantity=product_quantity)
-    
-    cart_quantity = cart.__len__()
-    response = JsonResponse({'cart_quantity': cart_quantity})
+
+    print(product_id)
+    print(product_quantity)
+
+
+    # response = cart_add_product(cart , product, product_quantity)
+    if cart.add(product = product, quantity=product_quantity):
+        cart_quantity = cart.__len__()
+        response = JsonResponse({'cart_quantity': cart_quantity})
+    else:
+        response = JsonResponse({'error': 'Maximum quantity exceeded'},status=400)
+
+  
     return response
 
 def cart_detail(request):
@@ -38,6 +45,7 @@ def cart_update(request):
 
 
     product = get_object_or_404(Product , id=product_id)
+
     cart.add(product = product, quantity=product_quantity, is_update=True)
 
     cart_quantity = cart.__len__()
@@ -64,7 +72,11 @@ def cart_delete(request):
     response = JsonResponse({'cart_quantity': cart_quantity, 'get_total_price': total_price})
     return response
 
-
-
-
-
+#------------------Private----------------
+def cart_add_product(cart , product, quantity):
+    if product.quantity >= quantity:
+        cart.add(product = product, quantity=quantity)
+        json = cart.__len__()
+        return JsonResponse({'cart_quantity': cart.__len__()})
+    else:
+        return  JsonResponse({'error': 'Product quantity exceeded'})

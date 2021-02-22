@@ -15,8 +15,6 @@ class Cart():
 
     # my_car 미존재 시 KeyError 발생
     # my_car = request.session['my_car']
-
-
     def save(self):
         self.session[self.CART_SESSION_KEY] = self.cart
         self.session.modified = True
@@ -41,21 +39,30 @@ class Cart():
         product_id = str(product.id)
         return (self.cart[product_id]['quantity'] * Decimal(self.cart[product_id]['price']))
 
-    def get_total_price(self):
+    def get_item_quantity(self,product):
+        product_id = str(product.id)
+        return (int(self.cart[product_id]['quantity']))
 
+    def get_total_price(self):
         return sum(Decimal(item['price'])*item['quantity'] for item in self.cart.values())
 
     def add(self, product, quantity=1 ,is_update = False):
         product_id = str(product.id)
+        
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price':str(product.price)}
-    
+
         if is_update:
             self.cart[product_id]['quantity'] = quantity
+            self.save()
+            return True            
         else:
-            self.cart[product_id]['quantity'] += quantity
-        
-        self.save()
+            if self.cart[product_id]['quantity'] + quantity <= product.quantity:
+                self.cart[product_id]['quantity'] += quantity
+                self.save()
+                return True
+            else:
+                return False
 
     def delete(self, product):
         product_id = str(product.id)
