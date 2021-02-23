@@ -5,11 +5,10 @@ a, a:hover {
 #title_img {
     width: 61px;
 }
-#submenu {
+#dropdown {
     position: absolute; 
     z-index: 99;
-    
-
+    display: none;
 }
 
 @media screen and (max-width: 768px) { 
