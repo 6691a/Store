@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<head>
+    {% block title %}
+        Payment
+    {% endblock %}
+
+    {% block css %}
+        <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+    {% endblock %}
+
+</head>
+<body>
+    {% block content %}
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="col-md-12">
+      <div class="login d-flex align-items-center py-2">
+        <div class="container">
+          <div class="row">
+            <div id="payment-form" class="col-12 col-lg-6 mx-auto">
+              <form class="account-form p-4 rounded col-lg-12 mx-auto" action="." method="post">
+               {% csrf_token %}
+                <h3 class="mb-2 font-weight-bold">Billing addres</h3>
+                
+                <div class="col-12">Country</div>
+                  <select class="form-select form-select-lg mb-3" id="country" required>
+                    <option>Korea</option>
+                    <option>United States</option>
+                  </select>
+                <div class="col-12">Name</div>
+                <input type="text" name="username" maxlength="255" minlength="2" class="form-control mb-3" >
+
+                <div class="row g-2 align-items-center">
+                    <div class="col-12">Phone number</div>
+                    <div class="col-4">
+                        <input type="number" name="first_name" maxlength="5" class="form-control mb-3" oninput="maxLengthCheck(this)">
+                    </div>
+                    <div class="col-4">
+                        <input type="number" name="first_name" maxlength="5" class="form-control mb-3" oninput="maxLengthCheck(this)">
+                    </div>
+                    <div class="col-4">
+                        <input type="number" name="last_name" maxlength="5" class="form-control mb-3" oninput="maxLengthCheck(this)">
+                    </div>
+                </div>
+
+                <div class="col-12">Address</div>
+                <input type="text" name="username" maxlength="255" minlength="2" class="form-control mb-3">
+
+                <div class="col-12">City</div>
+                <input type="text" name="username" maxlength="255" minlength="2" class="form-control mb-3">
+
+                <div class="col-12">State / Province / Region</div>
+                <input type="text" name="username" maxlength="255" minlength="2" class="form-control mb-3">
+
+                <div class="col-12">ZIP Code</div>
+                <input type="text" name="username" maxlength="255" minlength="2" class="form-control mb-3">
+
+                <hr class="my-4">
+
+                  <h4 class="mb-3">Payment</h4>
+                  <label for="card-element">Credit or debit card</label>
+                  <div id="card-element" class="form-control form-control-payment">
+                    <!-- Payment elements will appear here -->
+                  </div>
+
+                <hr class="my-4">
+
+
+                <button id="submit" class="btn btn-secondary w-100 fw-bold" data-secret="{{ client_secret }}">Pay</button>
+
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  {% comment %} var STRIPE_PUBLISHABLE_KEY = '{{STRIPE_PUBLISHABLE_KEY}}'; {% endcomment %}
+  var CSRF_TOKEN = '{{ csrf_token }}';
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/payment.js' %}" data-rel-js></script>
+
+<script>
+function maxLengthCheck(object){
+    if (object.value.length > object.maxLength){
+        object.value = object.value.slice(0, object.maxLength);
+    }    
+}
+</script>
+    {% endblock %}
+</body>

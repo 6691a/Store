@@ -75,58 +75,75 @@ $(function(){
 });
 </script>
 
-<div class='zeta-menu-bar'>
-  <ul class="zeta-menu">
-    <li><a href="">대표작</a>
-                                <ul>
-                                    <li><a href="">해외 건축물</a></li>
-                                    <li><a href="">교육 및 의료시설</a></li>
-                                    <li><a href="">주거시설</a></li>
-                                    <li><a href="">공공 및 업무시설</a></li>
-                                    <li><a href="">복합 및 상업시설</a></li>
-                                    <li><a href="">공장 및 산업시설</a></li>
-                                    <li><a href="">군,병영시설</a></li>
-                                    <li><a href="">대공간 건축물</a></li>
-                                    <li><a href="">초고층 건축물</a></li> 
-                                </ul>
-                            </li>
-                            <li><a href="">시설물 종류</a>
-                                <ul>
-                                    <li><a href="">해외 건축물</a></li>
-                                    <li><a href="">교육 및 의료시설</a></li>
-                                    <li><a href="">주거시설</a></li>
-                                    <li><a href="">공공 및 업무시설</a></li>
-                                    <li><a href="">복합 및 상업시설</a></li>
-                                    <li><a href="">공장 및 산업시설</a></li>
-                                    <li><a href="">군,병영시설</a></li>
-                                    <li><a href="">대공간 건축물</a></li>
-                                    <li><a href="">초고층 건축물</a></li> 
-                                </ul>
-                            </li>
-                            <li><a href="">연도별</a>
-                                <ul>
-                                    <li><a href="">2020년</a></li>
-                                    <li><a href="">2019년</a></li>
-                                    <li><a href="">2018년</a></li>
-                                    <li><a href="">2017년</a></li>
-                                    <li><a href="">2016년</a></li>
-                                    <li><a href="">2015년</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="">수행방식</a>
-                                <ul>
-                                    <li><a href="">해외 건축물</a></li>
-                                    <li><a href="">교육 및 의료시설</a></li>
-                                    <li><a href="">주거시설</a></li>
-                                    <li><a href="">공공 및 업무시설</a></li>
-                                    <li><a href="">복합 및 상업시설</a></li>
-                                    <li><a href="">공장 및 산업시설</a></li>
-                                    <li><a href="">군,병영시설</a></li>
-                                    <li><a href="">대공간 건축물</a></li>
-                                    <li><a href="">초고층 건축물</a></li> 
-                                </ul>
-</li>
-  </ul>
-</div>
+<form id="payment-form">
+  <h3 class="mb-3">Billing address</h3>
+  <!-- Error messages in this element -->
+  <div id="card-errors" class="a" role="alert"></div>
+  <div class="row g-3">
+    <div class="col-sm-7">
+      <label for="firstName" class="form-label">Customer Name</label>
+      <input type="text" class="form-control" id="custName" placeholder="" required>
+      <div class="invalid-feedback">
+        Valid first name is required.
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+      <input type="email" class="form-control" id="email" placeholder="you@example.com">
+      <div class="invalid-feedback">
+        Please enter a valid email address for shipping updates.
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" id="custAdd" placeholder="1234 Main St" required>
+      <div class="invalid-feedback">
+        Please enter your shipping address.
+      </div>
+    </div>
+    <div class="col-12">
+      <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+      <input type="text" class="form-control" id="custAdd2" placeholder="Apartment or suite">
+    </div>
+    <div class="col-md-5">
+      <label for="country" class="form-label">Country</label>
+      <select class="form-select" id="country" required>
+        <option value="">Choose...</option>
+        <option>United States</option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a valid country.
+      </div>
+    </div>
+    <div class="col-md-4">
+      <label for="state" class="form-label">State</label>
+      <select class="form-select" id="state" required>
+        <option value="">Choose...</option>
+        <option>California</option>
+      </select>
+      <div class="invalid-feedback">
+        Please provide a valid state.
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label for="Postcode" class="form-label">Postcode</label>
+      <input type="text" class="form-control" id="postCode" placeholder="" required>
+      <div class="invalid-feedback">
+        Zip code required.
+      </div>
+    </div>
+  </div>
+  <hr class="my-4">
+  <h4 class="mb-3">Payment</h4>
+  <label for="card-element">Credit or debit card</label>
+  <div id="card-element" class="form-control form-control-payment">
+    <!-- Payment elements will appear here -->
+  </div>
+  <hr class="my-4">
+  <button id="submit" class="btn btn-primary w-100 fw-bold" data-secret="{{ client_secret }}">Pay</button>
+</form>
+
+
+
 </body>
 </html>

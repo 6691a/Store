@@ -30,7 +30,10 @@ INSTALLED_APPS = [
     'django_summernote',
     'six',
 
-
+    #결제
+    'payment',
+    
+    'order',
     'user',
     'store',
     'cart',
@@ -173,7 +176,9 @@ DEFAULT_FILE_STORAGE = 'config.s3media.MediaStorage'
 
 SITE_ID = 1
 
-#로그인 이후 이동  페이지
+#로그인 이후 이동 페이지
+LOGIN_REDIRECT_URL ='/'
+#로그인 이동 페이지
 LOGIN_URL = 'user:login'
 
 
@@ -185,4 +190,8 @@ EMAIL_HOST_USER = setting.EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = setting.EMAIL_HOST_PASSWORD		 
 EMAIL_USE_TLS = True			    
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+STRIPE_PUBLISHABLE_KEY = setting.STRIPE_PUBLISHABLE_KEY
+STRIPE_SECRET_KEY = setting.STRIPE_SECRET_KEY
 	

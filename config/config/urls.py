@@ -7,6 +7,9 @@ urlpatterns = [
     path('user/', include('user.urls',namespace='user')),
     path('cart/', include('cart.urls',namespace='cart')),
 
+    path('payment/', include('payment.urls', namespace='payment')),
+
+
     path('summernote/', include('django_summernote.urls')),
     path('', include('store.urls', namespace='store')),
 ]

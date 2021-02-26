@@ -33,38 +33,34 @@
 </head>
 
 <body>
-
-  <nav id="navbar" class="navbar navbar-expand-md navbar-light bg-white  px-md-4">
-    <div class="col-md-3 col-lg-1 px-md-4">
-      <a class="" href="/">
-        <img id="title_img" class="img-fluid rounded mx-auto d-block mx-auto d-block center-block" width="100%" alt="Responsive image" src="https://store-media-server.s3.ap-northeast-2.amazonaws.com/images/default/stay_gold_final_700(1).png">
-      </a>
-    </div>
-  
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav justify-content-end">
-          <li class="nav-item mx-3 dropdown" id="account_btn">
-            <a class="btn btn-outline-secondary" type="button" role="button" href="
-                {% if user.is_authenticated %}
-                    {% url "user:profile" %}
-                {% else %}
-                    {% url "user:login" %}
-                {% endif %}">
-        
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                class="bi bi-person" viewBox="0 0 16 16">
-                <path
-                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                </svg>
-                Account
+    <nav id="navbar" class="navbar navbar-expand-md navbar-light bg-white  px-md-4">
+        <div class="col-md-3 col-lg-1 px-md-4">
+            <a class="" href="/">
+                <img id="title_img" class="img-fluid rounded mx-auto d-block mx-auto d-block center-block" width="100%" alt="Responsive image" src="https://store-media-server.s3.ap-northeast-2.amazonaws.com/images/default/stay_gold_final_700(1).png">
             </a>
-            {% if user.is_authenticated %}
-           
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item mx-3 dropdown" id="account_btn">
+                    <a class="btn btn-outline-secondary" type="button" role="button" href="
+                        {% if user.is_authenticated %}
+                            {% url "user:profile" %}
+                        {% else %}
+                            {% url "user:login" %}
+                        {% endif %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-person" viewBox="0 0 16 16">
+                        <path
+                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                        </svg>
+                        Account
+                    </a>
+                    {% if user.is_authenticated %}
                 <!-- row -->
                 <ul id="dropdown" class="navbar-nav text-center" >
                     <li class ="nav-item mt-2 w-100">
@@ -78,15 +74,11 @@
                                 </svg>
                                 Logout
                             </a>
-
-                        
                     </li>
-                    
                     <!-- <li class ="nav-item mt-2">
                         <a class="btn btn-outline-secondary" href="">Option</a>
                     </li> -->
                 </ul>
-         
             {% endif %}
         </li>
             <li class="nav-item ">

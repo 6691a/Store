@@ -16,11 +16,6 @@ def cart_add(request, is_update=False):
     product_quantity = int(request.POST.get('product_quantity'))
     product = get_object_or_404(Product , id=product_id)
 
-
-    print(product_id)
-    print(product_quantity)
-
-
     # response = cart_add_product(cart , product, product_quantity)
     if cart.add(product = product, quantity=product_quantity):
         cart_quantity = cart.__len__()

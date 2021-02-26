@@ -16,7 +16,6 @@ from .models import User
 
 def login(request):
     next = request.GET.get("next", None)
-    print(next)
     if request.method == 'POST':
         form = UserLoginForm(request, request.POST)
 
@@ -85,9 +84,6 @@ def activate(request, uidb64, token):
 
 @login_required
 def profile(request):
-    if request.user.is_authenticated:
-        return redirect('/')
-
     if request.method == 'POST':
 
         form = UserProfileForm(instance=request.user, data=request.POST)

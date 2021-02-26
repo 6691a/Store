@@ -69,7 +69,7 @@
                         <a href="/" type = "button" class = "btn btn-outline-secondary btn-lg btn-block mx-4" >
                             Home
                         </a>
-                        <a href="#" type = "button" class = "btn btn-secondary btn-lg btn-block mx-4" >
+                        <a href="{% url "payment:payment_info" %}" type = "button" class = "btn btn-secondary btn-lg btn-block mx-4" >
                             Buy
                         </a>
                     </div> 
@@ -80,7 +80,6 @@
 
 
 <script>
-    // Delete Item
     $(document).ready(function(e) {
         // id에 select가 들어가는
         const select = ($("[id^='select']"));
@@ -158,7 +157,7 @@
                         $('.product-item[data-index="' + prod_id + '"]').remove();
                         document.getElementById("subtotal").innerHTML = json.get_total_price;
                         document.getElementById("cart-quantity").innerHTML = json.cart_quantity
-                        document.getElementById("product_option").className = "invisible"
+                        //document.getElementById("product_option").className = "invisible"
                     },
                     error: function (xhr, errmsg, err) {
                             alert(err);
