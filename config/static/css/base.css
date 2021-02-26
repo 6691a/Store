@@ -9,7 +9,23 @@ a, a:hover {
     position: absolute; 
     z-index: 99;
     display: none;
+    background-color:white;
+    /* border:1px solid darkgray; */
+    /* border-radius: 5%; */
+    margin:0; 
+    width: 100%;
 }
+
+.account-form input {
+    border: 2px solid #ccc;
+    height: calc(2em + .75rem + 2px);
+}
+
+.account-form input:focus {
+    border-color: #6c757d;
+    box-shadow: none;
+}
+
 
 @media screen and (max-width: 768px) { 
     #navbar {

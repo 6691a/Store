@@ -23,7 +23,7 @@
                     <div class="col border-bottom">
                         <div class="row p-3">
                             <div class="col-6">Price</div>
-                            <div class="col-6 text-end"><span class="h4 fw-bold">£{{ product.price }}</span></div>
+                            <div class="col-6 text-end"><span class="h4 fw-bold">${{ product.price }}</span></div>
                         </div>
                     </div>
                     <div class="col">
@@ -31,17 +31,7 @@
                             <div class="col-6">
                                 <label for="select">Quantity</label>
                                 <select id="select">
-                                    
-                                    {% if product.quantity < 10 %}
-                                        <!-- {% for i in range %}
-                                        <option value="{{i}}">{{i}}</option>
-                                            
-                                        {% endfor %} -->
-                                    {% else %}      
-                                        
-                                    {% endif %}
-                                   
-                                 
+
                                 </select>
                             </div>
                             <div class="col-6 text-end">
@@ -83,7 +73,7 @@
     $(document).ready(function() {
     
 
-        var click = true;
+        let click = true;
         $('#cart-add-button').on('click', function (e) {
           
 

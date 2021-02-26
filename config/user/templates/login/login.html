@@ -32,34 +32,30 @@
                                         </div>
                                         {% endif %}
 
-                                        <div class="d-grid my-3 ">
+                                        <div class="d-grid my-2">
                                             {{form.username}}
                                         </div>
 
-                                        <div class="d-grid my-3">
+                                        <div class="d-grid my-2">
                                             {{form.password}}
                                         </div>
 
+                                        <p class="text-center py-2">
+                                            <a class="mx-2"href="{% url 'user:signup' %}">Create account</a>
+                                            <a href="{% url 'user:password_reset' %}">Forgot Password?</a>
+                                        </p> 
                                         
-                                        {% comment %} <label class="form-label">{{ form.password.label}}</label> {% endcomment %}
-
                                         <div class="d-grid gap-2">
                                             <input type="hidden" name="next" value="{{ next }}">
-                                            <button class="btn btn-primary py-2 mb-4 mt-5 fw-bold" type="submit" value="Log-in">
+                                            <button id="sign_in" class="btn btn-secondary btn fw-bold" value="Log-in">
                                                 Sign in
                                             </button>
                                         </div>
-                                        {% comment %} <p class="text-center pb-3">
-                                            <a href="{% url "user:register" %}">Create an user</a>
-                                        </p> {% endcomment %}
+                                    
                                     </form>
-                                    <p class="small text-center pt-4">
-                                        {% comment %} <a href="{% url "password_reset" %}">Forgotten Password?</a> {% endcomment %}
-                                    </p>
                                     <p class="small text-center">
                                         {% comment %} <a href="{% url "accounts:register" %}">Help Center?</a> {% endcomment %}
                                     </p>
-                            
                                 </div>
                             </div>
                         </div>
@@ -67,5 +63,12 @@
                 </div>
             </div>
         </div>
+
+         
+    <script>
+        $(document).ready(function() {
+
+        });
+    </script>
     {% endblock %}
 </body>

@@ -22,12 +22,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'storages',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.naver',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.naver',
     'django_summernote',
+    'six',
 
 
     'user',
@@ -92,16 +93,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000' ,'http://localhost:3000']
+
+
+# CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000' ,'http://localhost:3000']
 # CORS_ALLOW_CREDENTIALS = True
 
 # user custom
@@ -161,22 +164,25 @@ DEFAULT_FILE_STORAGE = 'config.s3media.MediaStorage'
 #소셜 로그인
 
 #로그인을 누가 관리 할 건지
-AUTHENTICATION_BACKENDS = [
-    #기본 장고
-    'django.contrib.auth.backends.ModelBackend',
-    #소셜 로그인
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#     #기본 장고
+#     'django.contrib.auth.backends.ModelBackend',
+#     #소셜 로그인
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 SITE_ID = 1
 
 #로그인 이후 이동  페이지
-LOGIN_REDIRECT_URL ='/'
+LOGIN_URL = 'user:login'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.googlemail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = setting.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = setting.EMAIL_HOST_PASSWORD
+
+# gmail
+EMAIL_HOST = 'smtp.gmail.com' 		     
+EMAIL_PORT = '587'                     
+EMAIL_HOST_USER = setting.EMAIL_HOST_USER 	 
+EMAIL_HOST_PASSWORD = setting.EMAIL_HOST_PASSWORD		 
+EMAIL_USE_TLS = True			    
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+	
