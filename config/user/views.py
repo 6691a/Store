@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 
+from impOrder.views import user_orders 
 from .forms import *
 from .token import account_activation_token
 from .models import User
@@ -18,7 +19,7 @@ def login(request):
     next = request.GET.get("next", None)
     if request.method == 'POST':
         form = UserLoginForm(request, request.POST)
-
+       
         if form.is_valid():
             auth.login(request, login_form.get_user())
             if next is not None:
@@ -32,8 +33,8 @@ def login(request):
     else:
             return render(request, 'login/login.html', {'form': UserLoginForm()})
 
-def signup(request):
 
+def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
 
@@ -87,7 +88,7 @@ def profile(request):
     if request.method == 'POST':
 
         form = UserProfileForm(instance=request.user, data=request.POST)
-
+        print(form)
         if form.is_valid():
             form.save()
     else:
@@ -97,4 +98,6 @@ def profile(request):
 
 @login_required
 def dashboard(request):
-    pass
+    orders = user_orders(request)
+    # print(orders.objects.all())
+    return render(request, 'dashboard/dashboard.html', {'orders': orders})

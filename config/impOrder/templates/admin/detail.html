@@ -1,0 +1,64 @@
+{% extends 'admin/base_site.html' %}
+
+{% block title %}
+    Order {{order.id}}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Home</a> &rsaquo;
+        <a href="{% url 'admin:impOrder_order_changelist' %}">IamPort</a> &rsaquo;
+        <a href="{% url 'admin:impOrder_order_change' order.id %}">Order {{order.id}}</a> &rsaquo;
+        Detail
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <h1>Order {{order.user}}</h1>
+    <ul class="object-tools">
+        <li>
+            <a href="#" onclick="window.print();">Print order</a>
+        </li>
+    </ul>
+    <table>
+        <tr>
+            <th>PAID</th>
+            <td>{{order.paid}}</td>
+        </tr>
+        <tr>
+            <th>User</th>
+            <td>{{order.user}}</td>
+        </tr>
+        <tr>
+            <th>Customer</th>
+            <td>{{order.first_name}} {{order.last_name}}</td>
+        </tr>
+        <tr>
+            <th>E-mail</th>
+            <td>{{order.email}}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{order.address}} {{order.postal_code}} {{order.city}}</td>
+        </tr>
+        <tr>
+            <th>Zip_code</th>
+            <td>{{order.zip_code}}</td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td>{{order.phone_number}} </td>
+        </tr>
+        <tr>
+            <th>Total amount</th>
+            <td>{{order.get_total_price}}</td>
+        </tr>
+        <tr>
+            <th>Created</th>
+            <td>{{order.created}}</td>
+        </tr>
+    </table>
+
+  
+{% endblock %}

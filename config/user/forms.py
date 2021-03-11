@@ -58,16 +58,6 @@ class CreateUserForm(forms.ModelForm):
         else:
             if not clean_password(cd['password2']):
                 raise forms.ValidationError("It doesn't fit the form")
-            # vali_data = [
-            # lambda s: any(x.islower() for x in s), #소문자 하나이상
-            # lambda s: any(x.isdigit() for x in s), #숫자 하나이상
-            # lambda s: len(s) == len(s.replace(" ", "")), #스페이스 거름
-            # lambda s: len(s) >= 7  #7자 미만 안댐
-            # ]
-            # for data in vali_data:
-            #     if not data(cd['password2']):
-            #         raise forms.ValidationError("It doesn't fit the form")
-
         return cd['password2']
 
 
@@ -78,9 +68,9 @@ class CreateUserForm(forms.ModelForm):
         self.fields['email'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'email@email.com (Required)', 'name': 'email', 'id': 'id_email'})
         self.fields['first_name'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'First Name'})
-        self.fields['last_name'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Last Name'})
+        self.fields['last_name'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'First Name'})
         self.fields['password'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Password (Required)'})
         self.fields['password2'].widget.attrs.update(
@@ -113,9 +103,9 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    # email = forms.EmailField(
-    #     label='Account email (can not be changed)', max_length=255, widget=forms.TextInput(
-    #         attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email', 'readonly': 'readonly'}))
+    email = forms.EmailField(
+        label='Account email (can not be changed)', max_length=255, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email', 'readonly': 'readonly'}))
 
     username = forms.CharField(
         label='Username', min_length=2, max_length=255, widget=forms.TextInput(
@@ -123,11 +113,11 @@ class UserProfileForm(forms.ModelForm):
     
     first_name = forms.CharField(
         label='Username', max_length=255, required = False, widget=forms.TextInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'First Name', 'id': 'form-firstname'}))
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Last Name', 'id': 'form-firstname'}))
 
     last_name = forms.CharField(
         label='Username', max_length=255, required = False, widget=forms.TextInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'Last Name', 'id': 'form-lastname'}))
+            attrs={'class': 'form-control mb-3', 'placeholder': 'First Name', 'id': 'form-lastname'}))
 
 
     class Meta:

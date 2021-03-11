@@ -1,0 +1,210 @@
+{% extends 'base.html' %} {% load static %}
+
+<head>
+  {% block title %} Order {% endblock %} {% block css %}
+  <link rel="stylesheet" href="{% static 'css/order_form.css' %}" />
+  {% endblock %}
+</head>
+<body>
+  {% block content %}
+  <div class="container-fluid">
+    <div class="row no-gutter">
+      <div class="col-md-12">
+        <div class="login d-flex align-items-center py-2">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-lg-6 mx-auto">
+                <form
+                  id="payment-form"
+                  class="account-form p-4 rounded col-lg-12 mx-auto"
+                >
+                  {% csrf_token %}
+                  <h3 class="mb-2 font-weight-bold">Billing addres</h3>
+
+                  <div class="col-12">Country</div>
+                  <select
+                    class="form-select form-select-lg mb-3"
+                    id="country"
+                    required
+                  >
+                    <option>Korea</option>
+                    <option>United States</option>
+                  </select>
+                  <div class="col-12">Email</div>
+                  <input
+                    type="text"
+                    id="email"
+                    maxlength="255"
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="{{user.email}}"
+                  />
+
+                  <div class="col-12">First Name</div>
+                  <input
+                    type="text"
+                    name ="first_name"
+                    id="first_name"
+                    maxlength="255"
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="{{user.first_name}}"
+                  />
+
+                  <div class="col-12">Last Name</div>
+                  <input
+                    type="text"
+                    name ="last_name"
+                    id="last_name"
+                    maxlength="255"
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="{{user.last_name}}"
+                  />
+
+                  <div class="row g-2 align-items-center">
+                    <div class="col-12">Phone number</div>
+                    <div class="col-4">
+                      <input
+                        type="number"
+                        name="phone_number"
+                        maxlength="5"
+                        class="form-control mb-3"
+                        oninput="maxLengthCheck(this)"
+                        required
+                        value="12"
+                      />
+                    </div>
+                    <div class="col-4">
+                      <input
+                        type="number"
+                        name="phone_number"
+                        maxlength="5"
+                        class="form-control mb-3"
+                        oninput="maxLengthCheck(this)"
+                        required
+                        value="12"
+                      />
+                    </div>
+                    <div class="col-4">
+                      <input
+                        type="number"
+                        name="phone_number"
+                        maxlength="5"
+                        class="form-control mb-3"
+                        oninput="maxLengthCheck(this)"
+                        required
+                        value="12"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12">Address</div>
+                  <input
+                    type="text"
+                    id="address"
+                    name = 'addres'
+                    maxlength="255"
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="12"
+                  />
+
+                  {% comment %}
+                  <div class="col-12">City</div>
+                  <input
+                    type="text"
+                    id="city"
+                    maxlength="255"
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="12"
+                  />
+
+                  <div class="col-12">State / Province / Region</div>
+                  <input
+                    type="text"
+                    id="state_province_region"
+                    maxlength="255"
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="12"
+                  />
+                  {% endcomment %}
+
+                  <div class="col-12">ZIP Code</div>
+                  <input
+                    type="text"
+                    id="zip_code"
+                    maxlength="255"
+                    name ='zip_code'
+                    minlength="2"
+                    class="form-control mb-3"
+                    required
+                    value="12"
+                  />
+
+                  {% comment %}
+                  <hr class="my-4" />
+
+                  <div id="card-errors" class="a" role="alert"></div>
+                  <h4 class="mb-3">Payment</h4>
+                  <label for="card-element">Credit or debit card</label>
+                  <div
+                    id="card-element"
+                    class="form-control form-control-payment"
+                  >
+                    <!-- Payment elements will appear here -->
+                  </div>
+                  {% endcomment %}
+
+                  <hr class="my-3" />
+                  <div class="text-center m-3">
+                    <div class="h5 fw-bold">
+                      Total: $
+                      <div
+                        id="amount"
+                        data-amount="{{cart.get_total_price}}"
+                        class="d-inline-flex"
+                      >
+                        {{cart.get_total_price}}
+                      </div>
+                    </div>
+                  </div>
+                  <button id="submit" class="btn btn-secondary w-100 fw-bold">
+                    Pay
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+
+  <script src="{% static 'js/chackout.js' %}" defer></script>
+
+  <script>
+    CSRF_TOKEN = "{{ csrf_token }}";
+    ORDER_CREATE_URL = '{% url "imp_order:order_create_ajax" %}';
+    ORDER_CHECKOUT_URL = '{% url "imp_order:order_checkout" %}';
+    ORDER_VALIDATION_URL = '{% url "imp_order:order_validation" %}';
+    ORDER_COMPLETE_URL = '{% url "imp_order:order_complete" %}';
+    PAYMENT_SUCCESS_URL = '{% url "user:dashboard" %}';
+    function maxLengthCheck(object) {
+      if (object.value.length > object.maxLength) {
+        object.value = object.value.slice(0, object.maxLength);
+      }
+    }
+  </script>
+  {% endblock %}
+</body>

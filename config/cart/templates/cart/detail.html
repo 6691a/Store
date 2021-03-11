@@ -69,7 +69,12 @@
                         <a href="/" type = "button" class = "btn btn-outline-secondary btn-lg btn-block mx-4" >
                             Home
                         </a>
-                        <a href="{% url "payment:payment_info" %}" type = "button" class = "btn btn-secondary btn-lg btn-block mx-4" >
+                        {% comment %} <a href="{% url "payment:payment_info" %}" type = "button" class = "btn btn-secondary btn-lg btn-block mx-4" >
+                            Buy
+                        </a> {% endcomment %}
+
+
+                         <a href="{% url "imp_order:order_create" %}" type = "button" class = "btn btn-secondary btn-lg btn-block mx-4" >
                             Buy
                         </a>
                     </div> 

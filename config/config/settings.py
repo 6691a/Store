@@ -32,7 +32,7 @@ INSTALLED_APPS = [
 
     #결제
     'payment',
-    
+    'impOrder',
     'order',
     'user',
     'store',
@@ -122,9 +122,6 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (
     AWS_STORAGE_BUCKET_NAME, AWS_REGION
 )
 
-# f's3.{AWS_REGION}.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}'
-
-
 # 파일 캐시 유지 시간
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
@@ -142,10 +139,10 @@ AWS_LOCATION = ''
 STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 # 스토리지 기법
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # 개발용
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')

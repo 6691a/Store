@@ -1,4 +1,8 @@
 python3 manage.py shell
 from django.contrib.sessions.models import Session
-s = Session.objects.get(pk='arjuzcex6wctucnm6n0io3spyqu5zu9z')
+s = Session.objects.get(pk='ma83drjvq5kfjx1lp7esk18cbpu63hba')
 s.get_decoded()
+
+
+S3 STATIC FILE UPLOAD
+python manage.py collectstatic

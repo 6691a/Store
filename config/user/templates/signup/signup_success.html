@@ -13,6 +13,16 @@
 
 <body>
     {% block content %}
-        {{email}} check.
+    <div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-secondary" role="alert">
+                Thank you!
+                <br/>
+                Please check the corresponding mail.<br/>
+                <strong>{{email}}</strong></div>
+            </div>
+        </div>        
+        </div>
     {% endblock %}
 </body>
