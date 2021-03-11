@@ -10,7 +10,8 @@ SECRET_KEY = setting.SECRET_KEY
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#amazon AWS 허용
+ALLOWED_HOSTS = ['.compute.amazonaws.com', '127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -142,7 +143,7 @@ STATIC_URL = 'http://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # 개발용
-# STATIC_URL = '/static/'
+# STATIC_URL = '/static/'  
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
