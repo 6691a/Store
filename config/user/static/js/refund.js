@@ -1,10 +1,10 @@
 $(document).ready(function() {
     // $('#cart-container > *').on('click', function (e) {
-    $('#content > a').on('click', function (e) {
+    $('#content > #refund').on('click', function (e) {
         e.preventDefault();
         reason = prompt('환불 사유를 입력해 주세요', '단순 변심');
         order_id = $(this).data('id');
-        // alert(order_id)
+
         if(reason){
             $.ajax({
                 type: "POST",
