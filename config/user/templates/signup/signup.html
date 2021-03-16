@@ -55,7 +55,7 @@
 
                                         {{ form.password2 }}
                                     
-                                        <button class="btn btn-secondary btn fw-bold btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit">Register</button>
+                                        <button class="btn btn-secondary btn fw-bold btn-block py-2 mb-4 mt-5 fw500 w-100" type="submit" onclick="{alert('Please wait. \n Gmail을 통해 매일이 발송됩니다. 잠시만 기다려주세요.')}">Register</button>
                                         <p class="text-center">
                                             <a href="{% url "user:login" %}">Already have an account?</a>
                                         </p>
